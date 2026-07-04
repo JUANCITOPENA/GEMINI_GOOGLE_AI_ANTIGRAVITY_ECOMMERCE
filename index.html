@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Premium - Venta y Alquiler</title>
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Menú Fijo con Tabs (SIEMPRE VISIBLE) -->
+    <div class="navbar-sticky-wrapper py-2">
+        <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <a class="navbar-brand text-light fw-bold text-decoration-none fs-4" href="#">
+                <i class="fa-solid fa-car-side me-2"></i>LUXURY MOTORS
+            </a>
+            
+            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-vehiculos-tab" data-bs-toggle="pill" data-bs-target="#pills-vehiculos" type="button" role="tab">Vehículos</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-motos-tab" data-bs-toggle="pill" data-bs-target="#pills-motos" type="button" role="tab">Motos</button>
+                </li>
+            </ul>
+
+            <form class="search-sticky d-flex flex-grow-1 flex-lg-grow-0" role="search" onsubmit="event.preventDefault();">
+                <input class="form-control rounded-pill border-0 shadow-sm w-100" type="search" placeholder="Buscar modelo o marca..." id="searchInput">
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Banner -->
+    <header class="hero-banner text-center text-light">
+        <img src="assets/logo_pagina.png" alt="Logo Luxury Motors" style="height: 220px; margin-bottom: 20px; filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.8));">
+        <h1 class="display-3 fw-bolder mb-3">CATÁLOGO PREMIUM</h1>
+        <p class="lead">Explora nuestra colección exclusiva de vehículos y motocicletas de lujo.</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container my-5">
+        <div class="tab-content" id="pills-tabContent">
+            <!-- Vehículos Tab -->
+            <div class="tab-pane fade show active" id="pills-vehiculos" role="tabpanel">
+                <div class="row g-4" id="vehiculosContainer">
+                    <!-- Cards will be injected here -->
+                </div>
+            </div>
+            <!-- Motos Tab -->
+            <div class="tab-pane fade" id="pills-motos" role="tabpanel">
+                <div class="row g-4" id="motosContainer">
+                    <!-- Cards will be injected here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Cart Button -->
+    <button class="cart-btn position-fixed bottom-0 end-0 m-4 shadow-lg rounded-circle" id="cartBtn" data-bs-toggle="modal" data-bs-target="#cartModal">
+        <i class="fa-solid fa-cart-shopping fs-4"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">0</span>
+    </button>
+
+  <style>
+    footer {
+      background: linear-gradient(135deg, #0a0a0a, #1c1c1c);
+      color: #fff;
+      padding: 50px 0 30px;
+      text-align: center;
+      margin-top: 20px;
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+    }
+    footer img.footer-avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+      margin-bottom: 20px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    footer img.footer-avatar:hover {
+      transform: scale(1.05);
+      border-color: #f8f9fa;
+    }
+    footer h4 {
+      font-weight: 800;
+      color: #00bfff;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    footer p.bio {
+      font-size: 16px;
+      color: #ddd;
+      max-width: 800px;
+      margin: 0 auto 20px;
+      line-height: 1.6;
+    }
+    .tech-stack {
+      display: inline-block;
+      background: rgba(0, 191, 255, 0.1);
+      color: #00bfff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 13px;
+      margin: 4px;
+      border: 1px solid rgba(0, 191, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+    .tech-stack:hover {
+      background: rgba(0, 191, 255, 0.2);
+      transform: translateY(-2px);
+    }
+    .tech-stack i { margin-right: 6px; font-size: 15px; }
+    .keyword { color: #00d2ff; font-weight: bold; }
+    .keyword-ai { color: #ff007f; font-weight: bold; }
+    .social-icons-footer { margin: 25px 0; }
+    .social-icons-footer a {
+      color: #fff;
+      font-size: 24px;
+      margin: 0 12px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    .social-icons-footer a:hover {
+      color: #00bfff;
+      transform: translateY(-5px) scale(1.1);
+      text-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+    }
+    .btn-youtube {
+      background: linear-gradient(90deg, #ff0000, #cc0000);
+      color: #fff;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255,0,0,0.3);
+    }
+    .btn-youtube:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255,0,0,0.5);
+    }
+  </style>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <img src="assets/FOTO_PORTADA_JUANCITO.png" class="footer-avatar" alt="Ing. Juancito Peña">
+      <h4>Ing. Juancito Peña Vizcaíno</h4>
+      <p class="bio">
+        Docente universitario, <span class="keyword">Desarrollador Full Stack</span> y <span style="color: #00ff88; font-weight: bold;">Analista & Científico de Datos</span> apasionado por la tecnología, la <span class="keyword-ai">Inteligencia Artificial</span> y la educación digital.<br>
+        💡 Creador de contenido especializado en arquitectura de software, bases de datos avanzadas y análisis de datos.
+      </p>
+      
+      <div class="mb-4">
+        <span class="tech-stack"><i class="fab fa-html5" style="color: #e34f26;"></i> HTML</span>
+        <span class="tech-stack"><i class="fab fa-css3-alt" style="color: #1572b6;"></i> CSS</span>
+        <span class="tech-stack"><i class="fab fa-js" style="color: #f7df1e;"></i> JS</span>
+        <span class="tech-stack"><i class="fab fa-bootstrap" style="color: #7952b3;"></i> Bootstrap</span>
+        <span class="tech-stack"><i class="fab fa-php" style="color: #777bb4;"></i> PHP</span>
+        <span class="tech-stack"><i class="fab fa-laravel" style="color: #ff2d20;"></i> Laravel</span>
+        <span class="tech-stack"><i class="fas fa-code"></i> C#</span>
+        <span class="tech-stack"><i class="fab fa-microsoft"></i> .NET MAUI</span>
+        <span class="tech-stack"><i class="fab fa-python" style="color: #3776ab;"></i> Python</span>
+        <span class="tech-stack"><i class="fas fa-database" style="color: #cc292b;"></i> SQL Server</span>
+        <span class="tech-stack"><i class="fas fa-file-excel" style="color: #1D6F42;"></i> Excel</span>
+        <span class="tech-stack"><i class="fas fa-chart-bar" style="color: #f2c811;"></i> Power BI</span>
+      </div>
+
+      <div class="social-icons-footer">
+        <a href="https://www.youtube.com/@JuancitoDevV" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://github.com/JUANCITOPENA" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/juancitope%C3%B1a/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://www.instagram.com/juancito.pena.v/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/juancito.p.v" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com/JuancitoPenaV" target="_blank" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+
+      <button class="btn-youtube" onclick="window.open('https://www.youtube.com/@JuancitoDevV','_blank')">
+        🎥 Suscríbete a mi canal
+      </button>
+
+      <hr class="my-4" style="border-color:#333;">
+      <p class="mb-0" style="color: #888; font-size: 14px;">© 2026 Catálogo de Vehículos Premium | Arquitectura por <span style="color: #ccc; font-weight: bold;">Ing. Juancito Peña</span></p>
+    </div>
+  </footer>
+
+    <!-- Image Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content bg-transparent border-0">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center pt-0">
+                    <img src="" id="expandedImage" class="img-fluid rounded shadow-lg" alt="Vehículo ampliado">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rent Config Modal -->
+    <div class="modal fade" id="rentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-dark text-light border-0">
+                    <h5 class="modal-title"><i class="fa-solid fa-clock me-2"></i>Configuración de Alquiler</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tipo de Alquiler</label>
+                        <select class="form-select" id="rentType">
+                            <option value="dia">Por Día</option>
+                            <option value="hora">Por Hora</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Cantidad de tiempo</label>
+                        <input type="number" class="form-control" id="rentDuration" min="1" value="1">
+                    </div>
+                    <div class="alert alert-secondary text-center">
+                        <h4 class="mb-0">Total: <span id="rentTotalModal" class="text-primary fw-bold">$0.00</span></h4>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="confirmRentBtn">Confirmar Alquiler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-dark text-light border-0">
+                    <h5 class="modal-title"><i class="fa-solid fa-cart-shopping me-2"></i>Tu Carrito</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <tbody id="cartTableBody">
+                                <!-- Cart items injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end border-top pt-3">
+                        <h4 class="fw-bold">Total a Pagar: <span id="cartGrandTotal" class="text-success">$0.00</span></h4>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-danger me-auto" id="clearCartBtn">Vaciar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Seguir Comprando</button>
+                    <button type="button" class="btn btn-success" id="checkoutBtn"><i class="fa-solid fa-file-invoice me-2"></i>Procesar y Generar PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
