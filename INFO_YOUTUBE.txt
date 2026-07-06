@@ -1,0 +1,29 @@
+TÍTULO DEL VIDEO (100 caracteres):
+🔥 GEMINI VS GOOGLE AI STUDIO VS ANTIGRAVITY CLI: ¡E-COMMERCE DE AUTOS PREMIUM EN SEGUNDOS! 🏎️🤖
+
+-----------------------------------------------------------------------------------------
+DESCRIPCIÓN:
+
+¡La batalla definitiva de Inteligencia Artificial para el Desarrollo Web ha llegado! 🤯 En este video ponemos a prueba a Gemini 3.1 Pro en tres plataformas distintas (Gemini.com, Google AI Studio y Antigravity CLI). 
+
+El reto de hoy: Desarrollar una Single Page Application (SPA) para Ventas y Alquiler de Autos Premium. 🏎️✨ Construimos una interfaz moderna con barra de búsqueda en tiempo real, efectos blur, carrito inteligente (compra y renta), alertas con SweetAlert2 y la cereza del pastel: ¡Generación de Contratos y Facturas en PDF (con fotos de los vehículos) usando html2pdf.js! Todo programado con HTML, CSS, JavaScript y Bootstrap.
+
+Descubre qué plataforma de IA ofrece el mejor código, velocidad y estructura para crear proyectos increíbles desde cero sin necesidad de frameworks pesados. 🚀
+
+-----------------------------------------------------------------------------------------
+LLAMADOS A LA ACCIÓN Y ENLACES:
+
+👍 ¡Si te encantó esta demostración de poder de la IA, no olvides SUSCRIBIRTE, dejar tu LIKE y activar la campanita! 🔔
+
+👇 RECURSOS DEL VIDEO 👇
+
+🌐 Prueba el proyecto funcionando en vivo aquí (GitHub Pages):
+🔗 https://juancitopena.github.io/GEMINI_GOOGLE_AI_ANTIGRAVITY_ECOMMERCE/
+
+📂 Repositorio Oficial (¡Descarga el código y el JSON de autos aquí!):
+🔗 https://github.com/JUANCITOPENA/GEMINI_GOOGLE_AI_ANTIGRAVITY_ECOMMERCE
+
+-----------------------------------------------------------------------------------------
+HASHTAGS:
+
+#GeminiPro #GoogleAIStudio #AntigravityCLI #InteligenciaArtificial #DesarrolloWeb #JavaScript #Ecommerce #Programacion #TechInnovation #AutosPremium

@@ -1,0 +1,23 @@
+🚀 ¡Gemini vs Google AI Studio vs Antigravity CLI! 🤖💻
+
+Hoy comparto con mi red un experimento increíble: una batalla de entornos de Inteligencia Artificial desarrollando una Single Page Application (SPA) de Ventas y Alquiler de Autos Premium. 🏎️✨
+
+Construimos "LuxuryMotors" desde cero utilizando HTML5, CSS3, Vanilla JS y Bootstrap 5. 
+
+🛠️ Destacados del desarrollo:
+✅ Diseño de UI/UX premium con efectos Glassmorphism (blur) en Navbar.
+✅ Buscador dinámico de vehículos en tiempo real.
+✅ Carrito de compras híbrido (logica separada para venta directa y alquiler por días con cálculo de depósitos).
+✅ Implementación de SweetAlert2 para alertas e interacciones pulidas.
+✅ 📄 Integración avanzada de `html2pdf.js` para generar Contratos de Alquiler y Facturas de Compra en PDF visualmente atractivos ¡incluyendo la fotografía renderizada del vehículo en el documento!
+
+La IA está transformando radicalmente cómo orquestamos soluciones tecnológicas front-end en tiempo récord, permitiéndonos enfocarnos en la arquitectura y la experiencia del usuario. 💡
+
+Te invito a ver el resultado final, el código y el video donde explico el proceso de creación:
+🌐 Live Demo: https://juancitopena.github.io/GEMINI_GOOGLE_AI_ANTIGRAVITY_ECOMMERCE/
+🔗 Repositorio: https://github.com/JUANCITOPENA/GEMINI_GOOGLE_AI_ANTIGRAVITY_ECOMMERCE
+🎥 Video en YouTube: https://www.youtube.com/watch?v=TqqODDYtkIM
+
+¿Qué opinan sobre el uso de la IA generativa para acelerar el maquetado y la lógica de negocio en la web? ¡Los leo! 👇
+
+#InteligenciaArtificial #DesarrolloWeb #JavaScript #GeminiPro #GoogleAI #Programacion #Emprendimiento #Frontend #AutosPremium
