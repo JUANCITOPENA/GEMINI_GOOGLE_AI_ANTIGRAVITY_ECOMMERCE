@@ -3,70 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Premium - Venta y Alquiler</title>
-    <!-- Bootstrap 5.3.3 CSS -->
+    <title>Luxury Motors Elite Corp.</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome 6.5.1 -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Menú Fijo con Tabs (SIEMPRE VISIBLE) -->
-    <div class="navbar-sticky-wrapper py-2">
-        <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
-            <a class="navbar-brand text-light fw-bold text-decoration-none fs-4" href="#">
-                <i class="fa-solid fa-car-side me-2"></i>LUXURY MOTORS
+    <!-- Navbar Sticky Top -->
+    <nav class="navbar navbar-expand-lg sticky-top glass-navbar">
+        <div class="container">
+            <a class="navbar-brand text-white fw-bold" href="#">
+                <i class="fas fa-car-side me-2"></i> LUXURY MOTORS
             </a>
-            
-            <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-vehiculos-tab" data-bs-toggle="pill" data-bs-target="#pills-vehiculos" type="button" role="tab">Vehículos</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-motos-tab" data-bs-toggle="pill" data-bs-target="#pills-motos" type="button" role="tab">Motos</button>
-                </li>
-            </ul>
-
-            <form class="search-sticky d-flex flex-grow-1 flex-lg-grow-0" role="search" onsubmit="event.preventDefault();">
-                <input class="form-control rounded-pill border-0 shadow-sm w-100" type="search" placeholder="Buscar modelo o marca..." id="searchInput">
-            </form>
+            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-pills" id="mainTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active text-white" id="vehiculos-tab" data-bs-toggle="tab" data-bs-target="#vehiculos" type="button" role="tab" onclick="app.filterCategory('vehiculos')">Vehículos</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link text-white" id="motos-tab" data-bs-toggle="tab" data-bs-target="#motos" type="button" role="tab" onclick="app.filterCategory('motos')">Motos</button>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2 rounded-pill" type="search" placeholder="Buscar modelo o marca..." aria-label="Search" id="searchInput" onkeyup="app.search()">
+                </form>
+            </div>
         </div>
-    </div>
+    </nav>
 
     <!-- Hero Banner -->
-    <header class="hero-banner text-center text-light">
-        <img src="assets/logo_pagina.png" alt="Logo Luxury Motors" style="height: 220px; margin-bottom: 20px; filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.8));">
-        <h1 class="display-3 fw-bolder mb-3">CATÁLOGO PREMIUM</h1>
-        <p class="lead">Explora nuestra colección exclusiva de vehículos y motocicletas de lujo.</p>
+    <header class="hero-banner">
+        <div class="hero-overlay d-flex flex-column justify-content-center align-items-center text-center">
+            <img src="assets/logo_pagina.png" alt="Logo Oficial" class="hero-logo">
+            <h1 class="hero-title mt-3">CATÁLOGO PREMIUM</h1>
+        </div>
     </header>
 
     <!-- Main Content -->
     <main class="container my-5">
-        <div class="tab-content" id="pills-tabContent">
-            <!-- Vehículos Tab -->
-            <div class="tab-pane fade show active" id="pills-vehiculos" role="tabpanel">
-                <div class="row g-4" id="vehiculosContainer">
-                    <!-- Cards will be injected here -->
-                </div>
-            </div>
-            <!-- Motos Tab -->
-            <div class="tab-pane fade" id="pills-motos" role="tabpanel">
-                <div class="row g-4" id="motosContainer">
-                    <!-- Cards will be injected here -->
-                </div>
-            </div>
+        <div class="row g-4" id="productsContainer">
+            <!-- Cards will be injected here -->
         </div>
     </main>
 
     <!-- Floating Cart Button -->
-    <button class="cart-btn position-fixed bottom-0 end-0 m-4 shadow-lg rounded-circle" id="cartBtn" data-bs-toggle="modal" data-bs-target="#cartModal">
-        <i class="fa-solid fa-cart-shopping fs-4"></i>
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">0</span>
+    <button class="cart-floating-btn" data-bs-toggle="modal" data-bs-target="#cartModal">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="badge bg-danger rounded-pill" id="cartBadge">0</span>
     </button>
 
-  <style>
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title"><i class="fas fa-shopping-cart me-2"></i> Carrito de Compras</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Producto</th>
+                                    <th>Tipo</th>
+                                    <th>Precio</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cartItems">
+                                <!-- Cart items injected here -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3" class="text-end">Total:</th>
+                                    <th colspan="2" id="cartTotal">$0.00</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                    <hr class="my-4">
+                    <h5 class="mb-3 text-primary"><i class="fas fa-file-invoice me-2"></i> Datos de Facturación</h5>
+                    <form id="billingForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre del Cliente</label>
+                                <input type="text" class="form-control" id="customerName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Método de Pago</label>
+                                <select class="form-select" id="paymentMethod" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+                                    <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
+                                    <option value="Efectivo">Efectivo</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Fecha Estimada de Entrega / Devolución</label>
+                                <input type="date" class="form-control" id="deliveryDate" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="app.generatePDF()"><i class="fas fa-print me-2"></i> Generar PDF y Pagar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rental Modal -->
+    <div class="modal fade" id="rentalModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Opciones de Alquiler</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="rentalProductId">
+                    <input type="hidden" id="rentalProductCategory">
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Alquiler</label>
+                        <select class="form-select" id="rentalType" onchange="app.calculateRental()">
+                            <option value="hora">Por Hora</option>
+                            <option value="dia">Por Día</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Cantidad (Horas o Días)</label>
+                        <input type="number" class="form-control" id="rentalQuantity" min="1" value="1" oninput="app.calculateRental()">
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Subtotal: </strong> <span id="rentalSubtotal">$0.00</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="app.confirmRental()">Agregar al Carrito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content bg-transparent border-0">
+                <div class="modal-body text-center p-0 position-relative">
+                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 1050;"></button>
+                    <img id="modalExpandedImage" src="" class="img-fluid rounded shadow-lg" alt="Imagen Expandida">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
     footer {
       background: linear-gradient(135deg, #0a0a0a, #1c1c1c);
       color: #fff;
@@ -155,10 +263,15 @@
     <div class="container">
       <img src="assets/FOTO_PORTADA_JUANCITO.png" class="footer-avatar" alt="Ing. Juancito Peña">
       <h4>Ing. Juancito Peña Vizcaíno</h4>
-      <p class="bio">
-        Docente universitario, <span class="keyword">Desarrollador Full Stack</span> y <span style="color: #00ff88; font-weight: bold;">Analista & Científico de Datos</span> apasionado por la tecnología, la <span class="keyword-ai">Inteligencia Artificial</span> y la educación digital.<br>
-        💡 Creador de contenido especializado en arquitectura de software, bases de datos avanzadas y análisis de datos.
-      </p>
+     <p class="bio">
+  <span class="keyword">Desarrollador Full Stack</span>, 
+  <span style="color: #00ff88; font-weight: bold;">Analista de Datos</span> y 
+  <span style="color: #ff8800; font-weight: bold;">Científico de Datos</span>, 
+  además de <span class="keyword-ai">Docente universitario en tecnologías</span>. 
+  Apasionado por la innovación, la <span class="keyword-ai">Inteligencia Artificial</span> y la educación digital.<br>
+  💡 Creador de contenido especializado en arquitectura de software, bases de datos avanzadas, análisis de datos y soluciones tecnológicas modernas.
+</p>
+
       
       <div class="mb-4">
         <span class="tech-stack"><i class="fab fa-html5" style="color: #e34f26;"></i> HTML</span>
@@ -193,85 +306,9 @@
     </div>
   </footer>
 
-    <!-- Image Modal -->
-    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content bg-transparent border-0">
-                <div class="modal-header border-0 pb-0">
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center pt-0">
-                    <img src="" id="expandedImage" class="img-fluid rounded shadow-lg" alt="Vehículo ampliado">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Rent Config Modal -->
-    <div class="modal fade" id="rentModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg">
-                <div class="modal-header bg-dark text-light border-0">
-                    <h5 class="modal-title"><i class="fa-solid fa-clock me-2"></i>Configuración de Alquiler</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Tipo de Alquiler</label>
-                        <select class="form-select" id="rentType">
-                            <option value="dia">Por Día</option>
-                            <option value="hora">Por Hora</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Cantidad de tiempo</label>
-                        <input type="number" class="form-control" id="rentDuration" min="1" value="1">
-                    </div>
-                    <div class="alert alert-secondary text-center">
-                        <h4 class="mb-0">Total: <span id="rentTotalModal" class="text-primary fw-bold">$0.00</span></h4>
-                    </div>
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="confirmRentBtn">Confirmar Alquiler</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cart Modal -->
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 shadow-lg">
-                <div class="modal-header bg-dark text-light border-0">
-                    <h5 class="modal-title"><i class="fa-solid fa-cart-shopping me-2"></i>Tu Carrito</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-                            <tbody id="cartTableBody">
-                                <!-- Cart items injected here -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="text-end border-top pt-3">
-                        <h4 class="fw-bold">Total a Pagar: <span id="cartGrandTotal" class="text-success">$0.00</span></h4>
-                    </div>
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-outline-danger me-auto" id="clearCartBtn">Vaciar</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Seguir Comprando</button>
-                    <button type="button" class="btn btn-success" id="checkoutBtn"><i class="fa-solid fa-file-invoice me-2"></i>Procesar y Generar PDF</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="app.js"></script>
+    <!-- App Logic -->
+    <script src="app.js?v=2026"></script>
 </body>
 </html>
